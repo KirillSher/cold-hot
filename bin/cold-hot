@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 require __DIR__ . '/../vendor/autoload.php';
 
 use KirillSher\ColdHot\Controller;
@@ -7,23 +8,21 @@ use KirillSher\ColdHot\Database;
 use KirillSher\ColdHot\View;
 
 $db = new Database();
-$db->createGameTable();
-$db->createMovesTable();
 
-// Вывод меню
-View\showFeedback("Choose an action:");
-View\showFeedback("1. Start a new game");
-View\showFeedback("2. View game history");
-$choice = View\getUserInput("Enter your choice");
+View::showFeedback("Выберите действие:");
+View::showFeedback("1. Начать новую игру");
+View::showFeedback("2. Посмотреть историю игр");
+$choice = View::getUserInput("Введите ваш выбор");
 
 switch ($choice) {
     case '1':
-        Controller\startGame();
+        Controller::startGame($db); // Передача объекта базы данных в контроллер
         break;
     case '2':
-        Controller\showGameHistory();
+        Controller::showGameHistory($db); // Передача объекта базы данных в контроллер
         break;
     default:
-        View\showFeedback("Invalid choice");
+        View::showFeedback("Неверный выбор");
         break;
 }
+
